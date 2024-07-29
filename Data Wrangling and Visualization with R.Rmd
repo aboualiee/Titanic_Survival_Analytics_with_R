@@ -1,0 +1,45 @@
+---
+title: "Wrangling and Visualizing Data with R"
+author: "Abu Ali"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The Titanic Dataset
+
+we will use R packages to explore the Titanic dataset and visualize key patterns and insights, abd their relations to the survival rate of the passengers. 
+
+You can download the the titanic dataset here: https://www.kaggle.com/datasets/yasserh/titanic-dataset 
+
+
+### LOADING NECESSARY PACKAGES:
+```{r libraries}
+library(tidyverse) 
+```
+
+
+### LOADING THE DATASET:
+```{r dataset}
+titanic_ds <- (titanic) 
+```
+
+### #EXPLORING AND CLEANING THE DATASET:
+```{r libraries}
+#To view data in a spreadsheet-like format 
+View(titanic_ds)
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

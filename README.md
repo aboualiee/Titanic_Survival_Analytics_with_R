@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Data_Analytics_with_R
 ---
 title: "Wrangling and Visualizing Data with R"

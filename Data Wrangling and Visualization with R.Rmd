@@ -3,9 +3,9 @@ title: "Wrangling and Visualizing Data with R"
 author: "Abu Ali"
 date: "`r Sys.Date()`"
 output:
-  word_document: default
   html_document: default
   pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -117,5 +117,226 @@ selected_titanic <- drop_na(selected_titanic)
 missmap(selected_titanic, col = c("red", "green"))
 ```
 
-### EXPLORING THE DATASET:
+### UNIVARIATE ANALYSIS 
+
+#### Evaluation and Visualization of Individual Features in the Titanic Dataset
+
+#### i.Fare Category Distribution of Passengers:
+
+```{r fare distribution, echo=FALSE}
+fare_count <- table(selected_titanic$Farecategory)
+print(fare_count)
+```
+
+```{r fare visualization, echo=FALSE}
+library(ggrepel)
+# Create a summary data frame with counts and percentages of fare category
+summary_fare <- selected_titanic %>%
+  group_by(Farecategory) %>%
+  summarize(n = n()) %>%
+  mutate(Fpercentage = n / sum(n) * 100)
+
+# Create the plot using the summary data frame
+ggplot(summary_fare, aes(x = "", y = n, fill = Farecategory)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  theme_void() +
+  labs(title = "Fare Distribution in Titanic Dataset", fill = "Fare Category") +
+
+  geom_text_repel(aes(label = paste0(round(Fpercentage, 2), "%")),
+            position = position_stack(vjust = 0.5), color = "white")
+ggsave("Fare Distribution_titanic_dataset.png", width = 10, height = 8)
+
+```
+
+#### ii. Gender Distribution of Passengers: 
+
+```{r gender distribution, echo=FALSE}
+gender_count <- table(selected_titanic$Sex)
+gender_count
+```
+
+```{r gender visualization, echo=FALSE}
+summary_gender <- selected_titanic %>%
+  group_by(Sex) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n) * 100)
+
+ggplot(summary_gender, aes(x = "", y = n, fill = Sex)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  theme_void() +
+  labs(title = "Gender Distribution in Titanic Dataset", fill = "Gender") +
+  geom_text(aes(label = paste0(round(Percentage, 2), "%")),
+            position = position_stack(vjust = 0.5), color = "white")
+ggsave("Gender_distribution_titanic.png", width = 10, height = 8)
+```
+
+#### iii. Age Distribution (adult and children) of Passengers:
+
+```{r age distribution, echo=FALSE}
+age_count <- table(selected_titanic$Age)
+age_count
+```
+
+```{r age visualization, echo=FALSE}
+#Visualize the Age Distribution using pie function instead of ggplot2 library
+pie(age_count, main = "Age Distribution in Titanic Dataset", 
+    labels = paste(round(age_count/sum(age_count) * 100, 2), "%", sep = ""), 
+    col = rainbow(length(age_count)))
+
+# Add legend with age groups
+legend("topright", names(age_count), cex = 0.8, 
+       fill = rainbow(length(age_count)))
+ggsave("Age_distribution.png", width = 10, height = 8)
+```
+
+#### iv. Port of Embarkation Distribution of Passengers:
+
+```{r embarkation distribution, echo=FALSE}
+embark_count <- table(selected_titanic$Embarked)
+embark_count
+```
+
+```{r embarkation visualization, echo=FALSE}
+ggplot(selected_titanic, aes(x = Embarked, fill = Embarked)) + 
+  geom_bar() + 
+  theme_classic() + 
+  labs(x = "Port of Embarkation", y = "Number of Passengers",
+       title = "Port of Embarkation Distribution in Titanic Dataset")
+ggsave("embarkation_distribution.png", width = 10, height = 8)
+```
+
+#### v. Class Distribution of Passengers:
+
+```{r class distribution, echo=FALSE}
+class_count <- table(selected_titanic$Class)
+class_count
+```
+
+```{r class visualization, echo=FALSE}
+barplot(class_count, 
+        main = "Ticket Class of Passengers Distribution in Titanic Dataset", 
+        xlab = "Ticket Class", 
+        ylab = "Number of Passengers", 
+        col = "skyblue")
+ggsave("class_distribution.png", width = 10, height = 8)
+```
+
+#### vi. Survival Distribution of Passengers:
+
+```{r survival distribution, echo=FALSE}
+survive_count <- table(selected_titanic$Survived)
+survive_count
+```
+
+```{r survival visualization, echo=FALSE}
+summary_survived <- selected_titanic %>%
+  group_by(Survived) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n) * 100)
+
+ggplot(summary_survived, aes(x = "", y = n, fill = Survived)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  theme_void() +
+  labs(title = "Survival Distribution in Titanic Dataset", fill = "Survived") +
+  geom_text(aes(label = paste0(round(Percentage, 2), "%")),
+            position = position_stack(vjust = 0.5), color = "white") +
+  scale_fill_manual(values = c("No" = "red", "Yes" = "green"))
+ggsave("Survival_distribution_titanic.png", width = 10, height = 8)
+```
+
+#### vi. Destination Distribution of Passengers:
+
+```{r destination distribution, echo=FALSE}
+library(knitr)
+destination_count <- table(selected_titanic$Destination)
+kable(destination_count)
+```
+
+```{r destination visualization, echo=FALSE}
+# Get the top 10 destinations with the highest frequency
+top_10_destinations <- selected_titanic %>%
+  group_by(Destination) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count)) %>%
+  head(10)
+
+# Create a heatmap
+ggplot(top_10_destinations, aes(x = Destination, y = count, fill = count)) +
+  geom_tile() +
+  labs(title = "Top 10 Destination Distribution of Passengers in Titanic Dataset", 
+       x = "Destination", y = "Number of Passengers") +
+  theme_minimal() +
+  theme( axis.text.x = element_text(angle = 45, hjust = 1))
+ggsave("Destination_distribution_titanic.png", width = 10, height = 8)
+```
+
+### BIVARIATE ANALYSIS 
+
+#### i. class with age, gender, destination, port of embarkation,
+
+#### Evaluation and Visualization of Relationships Between Survival and other Variables in Titanic Dataset
+
+#### i.Survival Rate by Fare Category:
+
+```{r survival rate by fare, echo=FALSE}
+# Create a summary data frame with counts of survivors and non-survivors by fare category
+summary_fs <- selected_titanic %>%
+  group_by(Farecategory, Survived) %>%
+  summarise(n = n(), .groups = "keep")
+
+# Create the plot using the summary data frame
+ggplot(summary_fs, aes(x = Farecategory, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Survival by Fare Category in Titanic Dataset", x = "Fare Category", y = "Number of Passengers", fill = "Survived") +
+  scale_fill_manual(values = c("No" = "red", "Yes" = "green"))
+ggsave("Survival_byfare_titanic.png", width = 10, height = 8)
+```
+
+
+#### ii.Survival Rate by Gender:
+
+```{r survival rate by gender, echo=FALSE}
+selected_titanic %>%
+  # Group by 'sex' and calculate survival rate
+  group_by(Sex, Survived) %>%
+  summarise(count = n()) %>%
+  # Create a stacked bar chart
+  ggplot(aes(x = Sex, y = count, fill = Survived)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(x = "Gender", y = "Number of Passengers", fill = "Survived") +
+  theme_classic()
+ggsave("Survival_bygender_titanic.png", width = 10, height = 8)
+```
+
+
+#### iii.Survival Rate by Age:
+
+```{r survival rate by age, echo=FALSE}
+selected_titanic %>%
+  group_by(Age, Survived) %>%
+  summarise(count = n()) %>%
+  ggplot(aes(x = Age, y = count, fill = Survived)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs (x = "Age", y = "Number of Passengers", fill = "Survived") +
+  theme_minimal()
+ggsave("Survival_byage_titanic.png", width = 10, height = 8)
+```
+
+
+#### iv.Survival Rate by Class:
+
+```{r survival rate by class, echo=FALSE}
+selected_titanic %>%
+  group_by (Class, Survived) %>%
+  summarise(count = n()) %>%
+  ggplot(aes (x = Class, y = count, fill = Survived)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs( x = "Ticket Class", y = "Number of Passengers", fill = "Survived") +
+  theme_minimal()
+ggsave("Survival_byclass_titanic.png", width = 10, height = 8)
+```
+
 

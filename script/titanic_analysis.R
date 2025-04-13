@@ -1,13 +1,10 @@
-### Loading the Dataset
+# Loading the Dataset
 
 library(readxl)
 titanic_ds <- read_excel("titanic_ds.xls")
 str(titanic_ds)
 
-
-# -------------------------------------------------
 # Cleaning the Dataset
-# -------------------------------------------------
 
 library(Amelia)
 missmap(titanic_ds, col = c("red", "green"))
@@ -59,9 +56,9 @@ selected_titanic <- drop_na(selected_titanic)
 
 missmap(selected_titanic, col = c("red", "green"))
 
-# -------------------------------------------------
+
 # Univariate Analysis: Analyzing and Visualizing Individual Variables in Titanic Dataset
-# -------------------------------------------------
+
 
 ## Fare Category Distribution
 fare_count <- table(selected_titanic$Farecategory)
@@ -172,9 +169,9 @@ ggplot(summary_destination, aes(x = Destination, y = count, fill = count)) +
 ggsave("Destination_distribution_titanic.png", width = 10, height = 8)
 
 
-# -------------------------------------------------
+
 # Bivariate BIVARIATE ANALYSIS: Analysing and Visualizing Relationships Between Survival Rate and other Variables in Titanic Dataset
-# -------------------------------------------------
+
 
 ## Survival Rate by Fare
 summary_sf <- selected_titanic %>%

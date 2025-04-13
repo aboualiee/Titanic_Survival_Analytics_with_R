@@ -1,7 +1,7 @@
 # Titanic Dataset Analysis in R
 
 ## Overview
-This project analyzes the Titanic passenger dataset to explore factors influencing survival rates during the disaster. Using R's data wrangling capabilities, I analysed the relationships between survival and variables like passenger class, gender, age, port of embarkation, and fare.
+This project analyzes the Titanic passenger dataset to explore factors influencing survival rates during the disaster. Using R's data wrangling capabilities, the analysis examines relationships between survival and variables like passenger class, gender, age, port of embarkation, and fare.
 
 > **For more elaborate context guidance on data wrangling techniques, get my article on medium**: [R for Data Science: Data Wrangling]
 
@@ -122,12 +122,13 @@ Stacked and side-by-side bar charts visualize these relationships.
 ![Survival by Port](plots/Survival_byport_titanic.png)  
 *Passengers who embarked from Cherbourg had better survival rates*
 
-![Survival by Fare](plots/Survival_byfare_titanic.png)
+**10. Survival by Fare**  
+![Survival by Fare](plots/Survival_byfare_titanic.png)  
 *Higher fare-paying passengers were more likely to survive*
 
-![Top Destinations](plots/Destination_distribution_titanic.png)
+**11. Top Destinations**  
+![Top Destinations](plots/Destination_distribution_titanic.png)  
 *Distribution of the top 10 destinations of Titanic passengers*
-
 
 ### Survival Patterns
 - `Survival_distribution_titanic.png` - Overall survival rate pie chart

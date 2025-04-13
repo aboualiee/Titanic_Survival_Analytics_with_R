@@ -130,14 +130,6 @@ Stacked and side-by-side bar charts visualize these relationships.
 ![Top Destinations](plots/Destination_distribution_titanic.png)  
 *Distribution of the top 10 destinations of Titanic passengers*
 
-### Survival Patterns
-- `Survival_distribution_titanic.png` - Overall survival rate pie chart
-- `Survival_byfare_titanic.png` - Fare category influence on survival
-- `Survival_bygender_titanic.png` - Gender influence on survival
-- `Survival_byage_titanic.png` - Age influence on survival
-- `Survival_byclass_titanic.png` - Class influence on survival
-- `Survival_byport_titanic.png` - Embarkation port influence on survival
-
 ## Findings
 The analysis reveals several key patterns in Titanic survival rates:
 
